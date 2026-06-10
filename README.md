@@ -10,6 +10,7 @@
 - 对 `search_queries`、`raw_results`、`reflections` 使用 `Annotated[list, operator.add]` 规约器，避免并发或多轮更新时覆盖历史数据。
 - 设置 `current_loops` 与 `max_loops`，当反思仍不充分但达到最大轮次时强制进入总结节点。
 - 在终端输出 `[Thought] -> [Action] -> [Observation]` 格式的可观测运行链路。
+- 自动导出 `outputs/experiment_trace.json`，便于复盘检索词、候选材料和反思判断。
 - 支持 Gemini 生成查询、结构化反思和研报总结；未配置 Gemini Key 时自动回退到本地规则。
 - 支持 Tavily API 检索；未配置 `TAVILY_API_KEY` 时自动使用内置演示数据，便于课堂验收和离线复现。
 
@@ -39,6 +40,7 @@ Key features:
 - Uses `Annotated[list, operator.add]` reducers for `search_queries`, `raw_results`, and `reflections` to prevent state overwrites across branches or iterations.
 - Applies `current_loops` and `max_loops` as a safety barrier to avoid hallucination-driven infinite search loops.
 - Prints an observable `[Thought] -> [Action] -> [Observation]` execution trace in the terminal.
+- Exports `outputs/experiment_trace.json` for reviewing search queries, candidate evidence, and reflection decisions.
 - Supports Gemini for query generation, structured reflection, and final report writing; when no Gemini key is configured, it falls back to local deterministic rules.
 - Supports Tavily search; when `TAVILY_API_KEY` is not configured, it falls back to built-in demo data for classroom verification and offline reproduction.
 

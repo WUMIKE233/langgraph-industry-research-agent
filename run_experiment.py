@@ -1,9 +1,10 @@
 from __future__ import annotations
 
+import json
 import os
 from pathlib import Path
 
-from src.deep_research_agent import run_agent
+from src.deep_research_agent import export_research_trace, run_agent
 
 
 QUESTION = (
@@ -20,7 +21,13 @@ def main() -> None:
     output_dir.mkdir(exist_ok=True)
     output_path = output_dir / "experiment_output.txt"
     output_path.write_text(final_state["final_answer"], encoding="utf-8")
+    trace_path = output_dir / "experiment_trace.json"
+    trace_path.write_text(
+        json.dumps(export_research_trace(final_state), ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
     print(f"\n[Observation] 最终报告已保存到：{output_path}")
+    print(f"[Observation] 运行轨迹已保存到：{trace_path}")
 
 
 if __name__ == "__main__":

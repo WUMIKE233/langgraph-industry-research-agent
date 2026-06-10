@@ -206,6 +206,31 @@ def run_agent(question: str, max_loops: int = 2) -> OverallState:
     )
 
 
+def export_research_trace(state: OverallState) -> dict[str, Any]:
+    """Build a compact JSON-serializable trace for review and classroom grading."""
+
+    return {
+        "question": state.get("question", ""),
+        "loops": state.get("current_loops", 0),
+        "is_sufficient": state.get("is_sufficient", False),
+        "search_queries": state.get("search_queries", []),
+        "result_count": len(state.get("raw_results", [])),
+        "results": [
+            {
+                "query": item.get("query", ""),
+                "title": item.get("title", ""),
+                "url": item.get("url", ""),
+                "content_preview": _compact_text(item.get("content", ""), 240),
+            }
+            for item in state.get("raw_results", [])
+        ],
+        "reflections": [
+            _extract_json_object(item) or {"raw": item}
+            for item in state.get("reflections", [])
+        ],
+    }
+
+
 def _search_tavily(query: str) -> list[SearchResult]:
     from tavily import TavilyClient
 
