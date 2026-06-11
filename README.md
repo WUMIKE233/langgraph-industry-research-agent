@@ -20,6 +20,7 @@
 python -m venv .venv
 .\.venv\Scripts\python -m pip install -r requirements.txt
 .\.venv\Scripts\python run_experiment.py
+.\.venv\Scripts\python run_experiment.py --question "2026 年 AI PC 产业链机会" --max-loops 3 --output-dir outputs/ai-pc
 ```
 
 如需使用真实 Gemini 与 Tavily，请先配置环境变量：
@@ -50,6 +51,7 @@ Key features:
 python -m venv .venv
 .\.venv\Scripts\python -m pip install -r requirements.txt
 .\.venv\Scripts\python run_experiment.py
+.\.venv\Scripts\python run_experiment.py --question "2026 AI PC supply-chain opportunities" --max-loops 3 --output-dir outputs/ai-pc
 ```
 
 To use live Gemini and Tavily, configure the environment variables first:

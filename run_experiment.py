@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import os
 from pathlib import Path
@@ -14,11 +15,16 @@ QUESTION = (
 
 
 def main() -> None:
-    max_loops = int(os.getenv("MAX_LOOPS", "2"))
-    final_state = run_agent(QUESTION, max_loops=max_loops)
+    parser = argparse.ArgumentParser(description="Run the LangGraph industry research demo.")
+    parser.add_argument("--question", default=os.getenv("RESEARCH_QUESTION", QUESTION), help="Research question to analyze.")
+    parser.add_argument("--max-loops", type=int, default=int(os.getenv("MAX_LOOPS", "2")), help="Maximum search/reflection loops.")
+    parser.add_argument("--output-dir", default=os.getenv("OUTPUT_DIR", "outputs"), help="Directory for report and trace files.")
+    args = parser.parse_args()
 
-    output_dir = Path("outputs")
-    output_dir.mkdir(exist_ok=True)
+    final_state = run_agent(args.question, max_loops=args.max_loops)
+
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / "experiment_output.txt"
     output_path.write_text(final_state["final_answer"], encoding="utf-8")
     trace_path = output_dir / "experiment_trace.json"
